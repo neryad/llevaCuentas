@@ -5,26 +5,38 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
+  <!-- <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Blank</ion-title>
     </ion-toolbar>
-  </ion-header>
+  </ion-header> -->
 
   <div id="container">
-    <ul>
+    <ion-card (click)="test(item.id)" *ngFor="let item of final">
+      <ion-card-header>
+        <ion-card-subtitle>{{item.amount}}</ion-card-subtitle>
+        <ion-card-title>{{item.name}}</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        Keep close to Nature's heart... and break clear away, once in awhile,
+        and climb a mountain or spend a week in the woods. Wash your spirit
+        clean.
+      </ion-card-content>
+    </ion-card>
+    <ion-fab (click)="new()" vertical="center" horizontal="start" slot="fixed">
+      <ion-fab-button>
+        <ion-icon name="share"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+    <!-- <ion-fab (click)="test2()" vertical="center" horizontal="end" slot="fixed">
+      <ion-fab-button>
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab> -->
+    <!-- <ul>
       <li routerLink="/details">detalles</li>
       <li routerLink="/form-account">Formulario</li>
-    </ul>
-    <strong>Ready to create an app?</strong>
-    <p>
-      Start with Ionic
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        href="https://ionicframework.com/docs/components"
-        >UI Components</a
-      >
-    </p>
+    </ul> -->
   </div>
 </ion-content>

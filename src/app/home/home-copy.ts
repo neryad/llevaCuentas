@@ -29,7 +29,6 @@ export class HomePage implements OnInit, AfterViewInit {
       false,
       'no-encryption'
     );
-    this.getAllData();
     // const date = Date.now() + Math.random();
     /** Se agrega persona */
     // await this.dataBaseService.setTable('Person');
@@ -45,21 +44,21 @@ export class HomePage implements OnInit, AfterViewInit {
     // );
     // console.log(papu, 'pau');
 
-    // const cuenta = {
-    //   id: `${uuidv4()}`,
-    //   idPerson: `00a00483-900d-413a-8f87-30dae0448602`,
-    //   amount: 1200,
-    //   date: Date.now(),
-    //   type: 'incoming3245',
-    // };
+    const cuenta = {
+      id: `${uuidv4()}`,
+      idPerson: `00a00483-900d-413a-8f87-30dae0448602`,
+      amount: 1200,
+      date: Date.now(),
+      type: 'incoming3245',
+    };
 
-    //await this.dataBaseService.setTable('Account');
+    await this.dataBaseService.setTable('Account');
     //await this.dataBaseService.setItem(`${uuidv4()}`, JSON.stringify(cuenta));
-    // const todos = await this.dataBaseService.getAllValues();
+    const todos = await this.dataBaseService.getAllValues();
 
-    // this.final = todos.map((x) => JSON.parse(x));
+    this.final = todos.map((x) => JSON.parse(x));
     // this.final = todos;
-    // console.log(this.final);
+    console.log(this.final);
 
     //await this.dataBaseService.getItem('1639007627107.7415');
     // await this.dataBaseService.setItem(`${date}`, JSON.stringify(objTest2));
@@ -67,16 +66,9 @@ export class HomePage implements OnInit, AfterViewInit {
     //await this.testFirstStore();
   }
   ngOnInit(): void {
-    // this.getAllData();
     // this.dataBaseService.addDummyProduct();
     // const wawa = this.dataBaseService.addDummyProduct2();
     // console.log(wawa, 'waw');
-  }
-  async getAllData() {
-    await this.dataBaseService.setTable('Person');
-    const todos = await this.dataBaseService.getAllValues();
-    this.final = todos.map((x) => JSON.parse(x));
-    console.log(this.final);
   }
 
   async test(id: string) {
@@ -107,35 +99,24 @@ export class HomePage implements OnInit, AfterViewInit {
     // const final = JSON.parse(papu);
 
     const person = JSON.parse(await this.dataBaseService.getItem(`${id}`));
-    //this.dataBaseService.closeStore('test');
+
     console.log(person.id);
-
-    const cuenta = {
-      id: `${uuidv4()}`,
-      idPerson: `${person.id}`,
-      amount: 1200,
-      date: Date.now(),
-      type: 'incoming3245',
-    };
-
-    await this.dataBaseService.setTable('Account');
-    await this.dataBaseService.setItem(`${uuidv4()}`, `${cuenta}`);
   }
   async test2() {}
   async new() {
     const name = this.getRandomString(6);
-    const idKey = uuidv4();
-    console.log(idKey, 'idKey');
+    const tes = uuidv4();
+    console.log(tes, 'tes');
     const person = {
-      id: `${idKey}`,
+      id: `${tes}`,
       name: `${name}`,
     };
     await this.dataBaseService.setTable('Person');
     const newPerson = await this.dataBaseService.setItem(
-      `${idKey}`,
+      `${tes}`,
       `${JSON.stringify(person)}`
     );
-    console.log(idKey, 'tes2');
+    console.log(tes, 'tes2');
 
     console.log(newPerson);
   }

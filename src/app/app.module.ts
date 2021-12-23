@@ -11,6 +11,8 @@ import { SharedModule } from './shared/shared.module';
 import { SQLiteService } from './shared/services/sqlite.service';
 import { DetailService } from './shared/services/detail.service';
 import { HomePageModule } from './home/home.module';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,6 +24,12 @@ import { HomePageModule } from './home/home.module';
     HttpClientModule,
     SharedModule,
     HomePageModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the app is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
   ],
   providers: [
     SQLiteService,

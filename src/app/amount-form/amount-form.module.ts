@@ -4,18 +4,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { FormAccountPageRoutingModule } from './form-account-routing.module';
+import { AmountFormPageRoutingModule } from './amount-form-routing.module';
 
-import { FormAccountPage } from './form-account.page';
+import { AmountFormPage } from './amount-form.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    FormAccountPageRoutingModule,
+    AmountFormPageRoutingModule,
     ReactiveFormsModule,
   ],
-  declarations: [FormAccountPage],
+  declarations: [AmountFormPage],
 })
-export class FormAccountPageModule {}
+export class AmountFormPageModule {}

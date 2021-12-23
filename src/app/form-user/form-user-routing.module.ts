@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { FormAccountPage } from './form-account.page';
+import { FormUserPage } from './form-user.page';
 
 const routes: Routes = [
   {
     path: ':id',
-    component: FormAccountPage,
+    component: FormUserPage,
   },
 ];
 
@@ -14,4 +14,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class FormAccountPageRoutingModule {}
+export class FormUserPageRoutingModule {}

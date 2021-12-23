@@ -1,0 +1,57 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title> <h3>{{person['name'] }}</h3></ion-title>
+    <ion-button (click)="gotToForm(this.currentId)" slot="end">
+      <ion-icon slot="icon-only" name="add"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+  <div class="acountHeader">
+    <div class="acountTitle">
+      <ion-icon name="wallet-outline"></ion-icon> <span>Total balance</span>
+    </div>
+    <h1>$ {{this.finalBalance | number:'1.0-2'}}</h1>
+  </div>
+</ion-header>
+<ion-content [fullscreen]="true">
+  <div *ngIf="!hasData">
+    <div class="acountbody">
+      <div *ngFor="let filterAmount of filterAmounts" class="card">
+        <div class="cardHedaer">
+          <span>{{filterAmount.date | date}}</span>
+          <span [ngStyle]="{color:(filterAmount.type === '1') ? 'blue' : 'red'}"
+            ><strong>$ {{filterAmount.amount | number:'1.0-2'}}</strong></span
+          >
+        </div>
+        <div class="cardBody">
+          <span style="color: #4c56c0">
+            <ion-icon name="cash-outline"></ion-icon
+          ></span>
+          <span><strong>{{filterAmount.description}}</strong></span>
+
+          <div class="opt-buttons">
+            <a (click)="gotToFormForEdit(filterAmount.id)">
+              <ion-icon
+                slot="icon-only"
+                name="pencil"
+                color="warning"
+              ></ion-icon>
+            </a>
+            <a (click)="deleteAmount(filterAmount.id)">
+              <ion-icon slot="icon-only" name="trash" color="danger"></ion-icon>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="hasData" class="card-data">
+    <span>No amount added</span>
+    <ion-card-subtitle
+      >Please use the <strong> + button</strong> to add new
+      amount</ion-card-subtitle
+    >
+  </div>
+</ion-content>

@@ -1,19 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HomePage } from './home.page';
 
-import { HomePageRoutingModule } from './home-routing.module';
+import { IonicModule } from '@ionic/angular';
+
+import { FormUserPageRoutingModule } from './form-user-routing.module';
+
+import { FormUserPage } from './form-user.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    HomePageRoutingModule,
+    FormUserPageRoutingModule,
     ReactiveFormsModule,
   ],
-  declarations: [HomePage],
+  declarations: [FormUserPage],
 })
-export class HomePageModule {}
+export class FormUserPageModule {}

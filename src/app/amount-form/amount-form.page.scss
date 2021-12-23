@@ -1,0 +1,11 @@
+.amountdiv {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* align-items: flex-start; */
+  align-content: center;
+}
+ion-button {
+  --background: #4c56c0;
+}

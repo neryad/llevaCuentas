@@ -29,7 +29,7 @@ export class AppComponent {
       this.sqlite.initializePlugin().then(async (ret) => {
         this.initPlugin = ret;
         const p: string = this.sqlite.platform;
-        console.log(`plaform ${p}`);
+        // console.log(`plaform ${p}`);
         if (p === 'web') {
           this.isWeb = true;
           await customElements.whenDefined('jeep-sqlite');

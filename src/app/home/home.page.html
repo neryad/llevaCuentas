@@ -1,42 +1,87 @@
-<ion-header [translucent]="true">
+<ion-content [fullscreen]="true">
+  <ion-item>
+    <ion-input
+      maxlength="15"
+      [formControl]="name"
+      type="text"
+      placeholder="Enter user name"
+    ></ion-input>
+    <ion-button (click)="saveUser()" slot="end">
+      <ion-icon slot="icon-only" name="add"></ion-icon>
+    </ion-button>
+  </ion-item>
+  <div *ngIf="!hasData">
+    <ion-card *ngFor="let item of final let i= index">
+      <ion-item button>
+        <ion-label>
+          <div
+            (click)="gotToAccount(item.id)"
+            [style.background-color]="item.color"
+            class="circle"
+          >
+            <p>{{item.name.charAt(0) | uppercase}}</p>
+          </div>
+        </ion-label>
+        <ion-label>
+          <h2>{{item.name}}</h2>
+          <!-- <p>user</p> -->
+        </ion-label>
+        <ion-button (click)="deleteUser(item.id)" color="danger" slot="end">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-card>
+  </div>
+
+  <div *ngIf="hasData" class="card">
+    <span>No user added</span>
+    <ion-card-subtitle
+      >Please use the <strong> + button</strong> to add new
+      user</ion-card-subtitle
+    >
+  </div>
+</ion-content>
+
+<!-- <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title> Blank </ion-title>
+    <ion-label position="floating">User name</ion-label>
+    <ion-input maxlength="15" [formControl]="name"></ion-input>
+    <ion-button (click)="saveUser()" slot="end">
+      <ion-icon icon-only clear slot="icon-only" name="add"></ion-icon>
+    </ion-button>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <!-- <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header> -->
-
-  <div id="container">
-    <ion-card (click)="test(item.id)" *ngFor="let item of final">
-      <ion-card-header>
-        <ion-card-subtitle>{{item.amount}}</ion-card-subtitle>
-        <ion-card-title>{{item.name}}</ion-card-title>
-      </ion-card-header>
-
-      <ion-card-content>
-        Keep close to Nature's heart... and break clear away, once in awhile,
-        and climb a mountain or spend a week in the woods. Wash your spirit
-        clean.
-      </ion-card-content>
+ <ion-content [fullscreen]="true">
+  <div id="">
+    <ion-card *ngFor="let item of final">
+      <ion-list>
+        <ion-item lines="none">
+          <ion-avatar slot="start">
+            <ion-icon color="primary" name="person-outline"></ion-icon>
+          </ion-avatar>
+          <ion-label>
+            <div class="align">
+              <h2 class="ion-text-start">{{item.name}}</h2>
+            </div>
+            <!-- <p>Balance: {{item.amount}}</p>
+          </ion-label>
+          <ion-icon
+            (click)="deleteUser(item.id)"
+            name="trash-outline"
+            color="danger"
+          ></ion-icon>
+          <ion-icon
+            (click)="gotToAccount(item.id)"
+            name="chevron-forward-outline"
+          ></ion-icon>
+        </ion-item>
+      </ion-list>
     </ion-card>
-    <ion-fab (click)="new()" vertical="center" horizontal="start" slot="fixed">
-      <ion-fab-button>
-        <ion-icon name="share"></ion-icon>
-      </ion-fab-button>
-    </ion-fab>
-    <!-- <ion-fab (click)="test2()" vertical="center" horizontal="end" slot="fixed">
-      <ion-fab-button>
-        <ion-icon name="add"></ion-icon>
-      </ion-fab-button>
-    </ion-fab> -->
+
     <!-- <ul>
       <li routerLink="/details">detalles</li>
       <li routerLink="/form-account">Formulario</li>
-    </ul> -->
+    </ul>
   </div>
-</ion-content>
+</ion-content>  -->

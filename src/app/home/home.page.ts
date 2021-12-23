@@ -7,6 +7,9 @@ import {
 } from 'capacitor-data-storage-sqlite';
 import { v4 as uuidv4 } from 'uuid';
 import { DatabaseService } from '../shared/services/database.service';
+import { AlertController } from '@ionic/angular';
+import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -14,141 +17,143 @@ import { DatabaseService } from '../shared/services/database.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit, AfterViewInit {
+  name = new FormControl();
   platform: string;
   isService = false;
   store: any = null;
   _cardStorage: HTMLIonCardElement;
   _showAlert: any;
   final;
-  constructor(private dataBaseService: DatabaseService) {}
+  hasData = false;
+  private initialization;
+
+  constructor(
+    private dataBaseService: DatabaseService,
+    private alertController: AlertController,
+    private router: Router
+  ) {}
+
   async ngAfterViewInit() {
     await this.dataBaseService.init();
     await this.dataBaseService.openStore(
-      'test',
-      'another',
+      'llevacuentasDb',
+      'Person',
       false,
       'no-encryption'
     );
-    this.getAllData();
-    // const date = Date.now() + Math.random();
-    /** Se agrega persona */
-    // await this.dataBaseService.setTable('Person');
-    // await this.dataBaseService.setItem(`${uuidv4()}`, 'maria');
-    // const papu = JSON.parse(
-    //   await this.dataBaseService.getItem(`7622f96c-fcd5-4c43-a691-8917ee394b3a`)
-    // );
-    // console.log(papu);
-    // const papu = JSON.parse(
-    //   await this.dataBaseService.getItem(
-    //     '"0ab3fce8-730a-4707-bb9c-c5f4f368dc1a"'
-    //   )
-    // );
-    // console.log(papu, 'pau');
-
-    // const cuenta = {
-    //   id: `${uuidv4()}`,
-    //   idPerson: `00a00483-900d-413a-8f87-30dae0448602`,
-    //   amount: 1200,
-    //   date: Date.now(),
-    //   type: 'incoming3245',
-    // };
-
-    //await this.dataBaseService.setTable('Account');
-    //await this.dataBaseService.setItem(`${uuidv4()}`, JSON.stringify(cuenta));
-    // const todos = await this.dataBaseService.getAllValues();
-
-    // this.final = todos.map((x) => JSON.parse(x));
-    // this.final = todos;
-    // console.log(this.final);
-
-    //await this.dataBaseService.getItem('1639007627107.7415');
-    // await this.dataBaseService.setItem(`${date}`, JSON.stringify(objTest2));
-    // await this.dataBaseService.isStoreExists('test');
-    //await this.testFirstStore();
+    await this.getAllData();
   }
-  ngOnInit(): void {
-    // this.getAllData();
-    // this.dataBaseService.addDummyProduct();
-    // const wawa = this.dataBaseService.addDummyProduct2();
-    // console.log(wawa, 'waw');
-  }
-  async getAllData() {
-    await this.dataBaseService.setTable('Person');
-    const todos = await this.dataBaseService.getAllValues();
-    this.final = todos.map((x) => JSON.parse(x));
-    console.log(this.final);
-  }
+  ngOnInit(): void {}
 
-  async test(id: string) {
-    console.log(id);
-
-    // const openStorageOptions: capOpenStorageOptions = {
-    //   database: 'test',
-    //   table: 'another',
-    // };
-    //console.log(openStorageOptions, 'hola bebe');
-    // const openResult: capDataStorageResult =
-    // const openResult: capDataStorageResult =
-    //   await CapacitorDataStorageSqlite.openStore(openStorageOptions);
-    // console.log(openResult, 'hola bebe2');
-    // if (openResult.result) {
-    //   const dataStorageOptions: capDataStorageOptions = {
-    //     key: 'nombre',
-    //     value: 'Branko',
-    //   };
-
-    //   const { result } = CapacitorDataStorageSqlite.set(dataStorageOptions);
-    //   console.log(result); // true
-    // }
-    // console.log(id, 'id');
-    await this.dataBaseService.setTable('Person');
-    //const papu = await this.dataBaseService.getItem(`${id}`);
-
-    // const final = JSON.parse(papu);
-
-    const person = JSON.parse(await this.dataBaseService.getItem(`${id}`));
-    //this.dataBaseService.closeStore('test');
-    console.log(person.id);
-
-    const cuenta = {
-      id: `${uuidv4()}`,
-      idPerson: `${person.id}`,
-      amount: 1200,
-      date: Date.now(),
-      type: 'incoming3245',
-    };
-
-    await this.dataBaseService.setTable('Account');
-    await this.dataBaseService.setItem(`${uuidv4()}`, `${cuenta}`);
-  }
-  async test2() {}
-  async new() {
-    const name = this.getRandomString(6);
+  async saveUser() {
     const idKey = uuidv4();
-    console.log(idKey, 'idKey');
+    if (this.name.value === ' ' || this.name.value == null) {
+      this.presentAlertNoEmptyUser();
+      return;
+    }
+
     const person = {
       id: `${idKey}`,
-      name: `${name}`,
+      name: `${this.name.value.toLowerCase()}`,
+      color: this.getRandomColor(),
     };
     await this.dataBaseService.setTable('Person');
-    const newPerson = await this.dataBaseService.setItem(
-      `${idKey}`,
-      `${JSON.stringify(person)}`
-    );
-    console.log(idKey, 'tes2');
+    let newPerson;
+    try {
+      newPerson = await this.dataBaseService.setItem(
+        `${idKey}`,
+        `${JSON.stringify(person)}`
+      );
+    } catch (error) {
+      console.log(error, 'error');
+    }
 
-    console.log(newPerson);
+    // console.log(newPerson);
+    // this.route.navigate(['/home']);
+    await this.getAllData();
+    this.name.reset();
+  }
+  async deleteUser(id: string) {
+    this.presentAlertConfirm(id);
+  }
+  gotToAccount(id: string) {
+    this.router.navigate([`form-user/${id}`]);
+  }
+  async getAllData() {
+    this.hasData = false;
+    await this.dataBaseService.setTable('Person');
+    const todos = await this.dataBaseService.getAllValues();
+
+    this.final = todos
+      .map((x) => JSON.parse(x))
+      .sort((a, b) => a.name - b.name);
+
+    if (this.final.length === 0) {
+      this.hasData = true;
+    }
+    const test = this.final.sort((a, b) => {
+      if (a.name < b.name) {
+        return -1;
+      } else {
+        return 1;
+      }
+    });
   }
 
-  getRandomString(length) {
-    const randomChars =
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-    for (let i = 0; i < length; i++) {
-      result += randomChars.charAt(
-        Math.floor(Math.random() * randomChars.length)
-      );
-    }
-    return result;
+  async presentAlertNoEmptyUser() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Aviso!',
+      message: 'Debe poner un nombre!',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            // console.log('Confirm Cancel: blah');
+          },
+        },
+        {
+          text: 'Okay',
+          handler: async (blah) => {
+            // console.log('Confirm ok: blah');
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
+  async presentAlertConfirm(id: string) {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Confirm!',
+      message: 'Seguro de borrar el usuario?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            // console.log('Confirm Cancel: blah');
+          },
+        },
+        {
+          text: 'Okay',
+          handler: async () => {
+            await this.dataBaseService.removeItem(id);
+            await this.getAllData();
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+  getRandomColor() {
+    const color = Math.floor(0x1000000 * Math.random()).toString(16);
+    return '#' + ('000000' + color).slice(-6);
   }
 }

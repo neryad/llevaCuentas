@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/form-user"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{title}} amount</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="amountdiv">
+    <form [formGroup]="amountForms" (submit)="save()">
+      <ion-item>
+        <ion-label position="floating">Amount</ion-label>
+        <ion-input
+          formControlName="amount"
+          min="1"
+          max="9999"
+          type="number"
+        ></ion-input>
+      </ion-item>
+      <br />
+
+      <ion-item>
+        <div>
+          <ion-label position="floating">Description</ion-label>
+          <ion-input
+            formControlName="description"
+            maxlength="25"
+            type="text"
+          ></ion-input>
+        </div>
+      </ion-item>
+      <br />
+      <ion-item>
+        <ion-label>Type</ion-label>
+        <ion-select formControlName="type" placeholder="Select One">
+          <ion-select-option value="1">Saving</ion-select-option>
+          <ion-select-option value="2">Expense</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <br />
+      <ion-item>
+        <ion-label>Pick a date</ion-label>
+        <div>
+          <ion-datetime
+            formControlName="date"
+            hour-cycle="h12"
+            placeholder="Select Date"
+            locale="en-GB"
+            >hola</ion-datetime
+          >
+        </div>
+      </ion-item>
+    </form>
+    <br />
+    <ion-button (click)="save()" type="submit">Save</ion-button>
+  </div>
+</ion-content>

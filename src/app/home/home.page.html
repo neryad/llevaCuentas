@@ -4,7 +4,7 @@
       maxlength="15"
       [formControl]="name"
       type="text"
-      placeholder="Enter user name"
+      placeholder="Enter account name"
     ></ion-input>
     <ion-button (click)="saveUser()" slot="end">
       <ion-icon slot="icon-only" name="add"></ion-icon>
@@ -26,6 +26,10 @@
           <h2>{{item.name}}</h2>
           <!-- <p>user</p> -->
         </ion-label>
+        <ion-button (click)="downloadPdf(item.id)" color="primary" slot="end">
+          <ion-icon name="document-outline"></ion-icon>
+        </ion-button>
+
         <ion-button (click)="deleteUser(item.id)" color="danger" slot="end">
           <ion-icon slot="icon-only" name="trash"></ion-icon>
         </ion-button>

@@ -224,7 +224,7 @@ export class HomePage implements OnInit, AfterViewInit {
     };
     this.pdfObj = pdfMake.createPdf(docDefinition);
 
-    this.pdfObj.download(`${this.person.name}-account`);
+    this.pdfObj.download(`${this.person.name}`);
   }
 
   async getAllDataFromUser(currentId: string) {

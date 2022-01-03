@@ -23,7 +23,7 @@
           </div>
         </ion-label>
         <ion-label>
-          <h2>{{item.name}}</h2>
+          <h2>{{item.name | titlecase }}</h2>
           <!-- <p>user</p> -->
         </ion-label>
         <ion-button (click)="downloadPdf(item.id)" color="primary" slot="end">
